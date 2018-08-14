@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class Subscribe
+    public class Subscriber
     {
         public Provider Provider { get; set; }
         private string respponse;
@@ -21,7 +21,7 @@ namespace BusinessLogic
                 OnPropertyChanged(Response);
             }
         }
-        public Subscribe(Provider provider)
+        public Subscriber(Provider provider)
         {
             if (provider == null)
             {
@@ -30,21 +30,19 @@ namespace BusinessLogic
             Provider = provider;
         }
         public event EventHandler PropertyChanged;
-        public async void StartSubscribe()
+        public void StartSubscribe()
         {
 
 
 
-            while (true)
+
+
+            using (StreamReader streamReader = new StreamReader(Provider.HttpWebResponse.GetResponseStream() ?? throw new InvalidOperationException("Response is empty")))
+
             {
-                await Task.Delay(TimeSpan.FromSeconds(30));
-
-                using (StreamReader streamReader = new StreamReader(Provider.HttpWebResponse.GetResponseStream() ?? throw new InvalidOperationException("Response is empty")))
-
-                {
-                    respponse = streamReader.ReadToEnd();
-                }
+                respponse = streamReader.ReadToEnd();
             }
+
 
         }
         public void OnPropertyChanged([CallerMemberName]string prop = "")
