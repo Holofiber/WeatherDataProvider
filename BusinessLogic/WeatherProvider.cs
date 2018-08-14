@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace BusinessLogic
 {
-    public class WeatherProvider : IWeatherProvider
+    public class WeatherProvider 
     {
 
         private string City;
@@ -12,7 +12,7 @@ namespace BusinessLogic
         private Subscribe Subscribe;
 
 
-        public WeatherResponse WeatherResponse { get; private set; }
+        public WeatherData WeatherData { get; private set; }
 
         public WeatherProvider(string city)
         {
@@ -32,7 +32,7 @@ namespace BusinessLogic
             Subscribe = new Subscribe(Provider);
             Subscribe.StartSubscribe();
 
-            WeatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(Subscribe.Response);
+            WeatherData = JsonConvert.DeserializeObject<WeatherData>(Subscribe.Response);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace BusinessLogic
 
             while (true)
             {
-                await Task.Delay(TimeSpan.FromSeconds(15));
+                await Task.Delay(TimeSpan.FromSeconds(30));
 
                 using (StreamReader streamReader = new StreamReader(Provider.HttpWebResponse.GetResponseStream() ?? throw new InvalidOperationException("Response is empty")))
 
@@ -49,8 +49,8 @@ namespace BusinessLogic
         }
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+
+            PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
 
