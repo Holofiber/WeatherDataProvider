@@ -18,5 +18,6 @@ namespace BusinessLogic.Interface
         void Start();
 
 
+        void Unsubscribe(string city);
     }
 }

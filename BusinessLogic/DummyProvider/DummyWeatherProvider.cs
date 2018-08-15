@@ -6,7 +6,7 @@ namespace BusinessLogic.Interface
 {
     public class DummyWeatherProvider : IWeatherProvider
     {
-        private List<string> cities = new List<string>();
+        private HashSet<string> cities = new HashSet<string>();
         public void Subscribe(string city)
         {
             cities.Add(city);
@@ -28,6 +28,11 @@ namespace BusinessLogic.Interface
                 }
 
             });
+        }
+
+        public void Unsubscribe(string city)
+        {
+            cities.Remove(city);
         }
 
         public string Name => "Dummy";

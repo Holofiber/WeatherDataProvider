@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using BusinessLogic;
 using BusinessLogic.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenWeatherMapProvider;
 
-namespace BusinessLogic
+namespace OpenWeatherMapProvider
 {
     public class OpenWeatherProvider : IWeatherProvider
     {
 
 
-        private Provider provider;
-        private Subscriber subscriber;
+        private OpenWeatherMapProvider.Provider provider;
+        private OpenWeatherMapProvider.Subscriber subscriber;
 
 
         public WeatherData WeatherData { get; private set; }
@@ -29,24 +29,16 @@ namespace BusinessLogic
 
         public WeatherData GetCurrentWeather(string city)
         {
-            provider = new Provider(city);
+            provider = new OpenWeatherMapProvider.Provider(city);
             provider.CreateWebRequest();
 
-            subscriber = new Subscriber(provider);
+            subscriber = new OpenWeatherMapProvider.Subscriber(provider);
             subscriber.StartSubscribe();
 
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<JObject, WeatherData>();
-                cfg.AddProfile<WeatherDataProfile>();
-            });
-
-            var mapper = config.CreateMapper();
 
 
 
-            var jsonoObj = JObject.Parse(subscriber.Response);
-            WeatherData vd = mapper.Map<WeatherData>(jsonoObj);
+
 
             OpenWeatherData weatherData = JsonConvert.DeserializeObject<OpenWeatherData>(subscriber.Response);
 
@@ -64,11 +56,16 @@ namespace BusinessLogic
         }
 
 
-        private List<string> cities = new List<string>();
+        private HashSet<string> cities = new HashSet<string>();
 
         public void Subscribe(string city)
         {
             cities.Add(city);
+        }
+
+        public void Unsubscribe(string city)
+        {
+            cities.Remove(city);
         }
 
         public void Start()
