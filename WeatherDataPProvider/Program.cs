@@ -31,7 +31,10 @@ namespace WeatherDataProvider
             //  provider.Subscribe(londonCity);
             //  provider2.Subscribe("Paris");
 
-            provider2.OnWeatherUpdate += (sender, data) => Console.WriteLine(data, Color.Red);
+            provider2.OnWeatherUpdate += (sender, data) =>
+            {
+                Console.WriteLine(data, Color.Red);
+            };
             //provider.OnWeatherUpdate += (sender, data) => Console.WriteLine(data, Color.Green);
 
             while (true)
