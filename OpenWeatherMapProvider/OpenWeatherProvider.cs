@@ -5,10 +5,11 @@ using AutoMapper;
 using BusinessLogic.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OpenWeatherMapProvider;
 
 namespace BusinessLogic
 {
-    public class WeatherProvider : IWeatherProvider
+    public class OpenWeatherProvider : IWeatherProvider
     {
 
 
@@ -18,12 +19,13 @@ namespace BusinessLogic
 
         public WeatherData WeatherData { get; private set; }
 
-        public WeatherProvider()
+        public OpenWeatherProvider()
         {
 
         }
 
 
+        public string Name => "OpenWeather";
 
         public WeatherData GetCurrentWeather(string city)
         {
@@ -41,14 +43,19 @@ namespace BusinessLogic
 
             var mapper = config.CreateMapper();
 
-            
+
 
             var jsonoObj = JObject.Parse(subscriber.Response);
-            WeatherData vd  = mapper.Map<WeatherData>(jsonoObj);
+            WeatherData vd = mapper.Map<WeatherData>(jsonoObj);
 
-            //WeatherData = JsonConvert.DeserializeObject<WeatherData>(subscriber.Response);
+            OpenWeatherData weatherData = JsonConvert.DeserializeObject<OpenWeatherData>(subscriber.Response);
 
-            return WeatherData;
+            OpenWeatherDataConverter converter = new OpenWeatherDataConverter();
+
+
+            var currentWeather = converter.ConvertData(weatherData);
+            currentWeather.Date = DateTime.Now;
+            return currentWeather;
         }
 
         public List<WeatherData> GetWeatherForecast(string london, int dayPeriod)
@@ -58,6 +65,7 @@ namespace BusinessLogic
 
 
         private List<string> cities = new List<string>();
+
         public void Subscribe(string city)
         {
             cities.Add(city);
@@ -65,20 +73,20 @@ namespace BusinessLogic
 
         public void Start()
         {
-            // Task.Factory.StartNew(async () =>
-            //  {
+            Task.Factory.StartNew(async () =>
+             {
 
-            //   while (true)
-            //  {
-            //     await Task.Delay(TimeSpan.FromSeconds(2));
-            foreach (string city in cities)
-            {
-                var currentWeather = GetCurrentWeather(city);
-                RaiseOnWeatherUpdate(currentWeather);
-            }
-            // }
+                 while (true)
+                 {
+                     await Task.Delay(TimeSpan.FromSeconds(5));
+                     foreach (string city in cities)
+                     {
+                         var currentWeather = GetCurrentWeather(city);
+                         RaiseOnWeatherUpdate(currentWeather);
+                     }
+                 }
 
-            //});
+             });
         }
 
         public event EventHandler<WeatherData> OnWeatherUpdate;

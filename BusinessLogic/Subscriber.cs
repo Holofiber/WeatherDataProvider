@@ -32,18 +32,11 @@ namespace BusinessLogic
         public event EventHandler PropertyChanged;
         public void StartSubscribe()
         {
-
-
-
-
-
             using (StreamReader streamReader = new StreamReader(Provider.HttpWebResponse.GetResponseStream() ?? throw new InvalidOperationException("Response is empty")))
 
             {
                 respponse = streamReader.ReadToEnd();
             }
-
-
         }
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

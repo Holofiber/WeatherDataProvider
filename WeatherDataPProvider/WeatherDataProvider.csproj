@@ -68,6 +68,10 @@
       <Project>{34f37b5a-87d3-4c1c-8600-6803a672dd0b}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenWeatherMapProvider\OpenWeatherMapProvider.csproj">
+      <Project>{f9ed849c-4edd-4156-ab5e-e2eff19ea4d2}</Project>
+      <Name>OpenWeatherMapProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

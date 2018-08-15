@@ -6,6 +6,8 @@ namespace BusinessLogic.Interface
 {
     public interface IWeatherProvider
     {
+        string Name { get; }
+
         WeatherData GetCurrentWeather(string city);
 
         List<WeatherData> GetWeatherForecast(string london, int dayPeriod);
@@ -14,5 +16,7 @@ namespace BusinessLogic.Interface
         void Subscribe(string city);
 
         void Start();
+
+
     }
 }

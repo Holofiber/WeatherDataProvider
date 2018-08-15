@@ -11,13 +11,13 @@ namespace BusinessLogic
     {
         public DateTime Date { get; set; }
 
-      //  [JsonProperty("name")]
+        //  [JsonProperty("name")]
         public string City { get; set; }
 
-       // [JsonProperty("wind.speed")]
+        [JsonProperty("wind.speed")]
         public float WindSpeed { get; set; }
 
-       // [JsonProperty("temp")]
+        // [JsonProperty("temp")]
         public float Temp { get; set; }
 
         public float Pressure { get; set; }
@@ -34,4 +34,5 @@ namespace BusinessLogic
                    $" \t{nameof(Date)}: {Date:MM/dd/yyyy dddd} ";
         }
     }
+
 }

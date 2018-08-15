@@ -30,6 +30,8 @@ namespace BusinessLogic.Interface
             });
         }
 
+        public string Name => "Dummy";
+
         public WeatherData GetCurrentWeather(string city)
         {
             var weatherData = new WeatherData();
